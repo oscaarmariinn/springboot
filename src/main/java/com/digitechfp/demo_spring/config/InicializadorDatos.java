@@ -1,6 +1,8 @@
 package com.digitechfp.demo_spring.config;
 
 import com.digitechfp.demo_spring.entity.Estudiante;
+import com.digitechfp.demo_spring.entity.Oficina;
+import com.digitechfp.demo_spring.entity.PerfilAcademico;
 import com.digitechfp.demo_spring.entity.Profesor;
 import com.digitechfp.demo_spring.repository.EstudianteRepository;
 import com.digitechfp.demo_spring.repository.ProfesorRepository;
@@ -16,10 +18,13 @@ public class InicializadorDatos {
     @Bean
     CommandLineRunner initData(EstudianteRepository estudianteRepository, ProfesorRepository profesorRepository){
         return args -> {
-            //INSERTAR ESTUDIANTES
-            Estudiante estudiante1 = new Estudiante("Ana Garcia", "ana.garcia@gmail.com", 19);
-            Estudiante estudiante2 = new Estudiante("Pedro Martinez", "pedro.martinez@gmail.com", 18);
-            Estudiante estudiante3 = new Estudiante("Oscar Marin", "oscar.marin@gmail.com", 20);
+            //INSERTAR ESTUDIANTES con Perfil Academico
+            PerfilAcademico perfilAcademico1 = new PerfilAcademico("Apasionado del backend", "B2");
+            PerfilAcademico perfilAcademico2 = new PerfilAcademico("Apasionado del Frontend", "B1");
+            PerfilAcademico perfilAcademico3 = new PerfilAcademico("Apasionado de todo", "C4");
+            Estudiante estudiante1 = new Estudiante("Ana Garcia", "ana.garcia@gmail.com", 19, perfilAcademico1);
+            Estudiante estudiante2 = new Estudiante("Pedro Martinez", "pedro.martinez@gmail.com", 18, perfilAcademico2);
+            Estudiante estudiante3 = new Estudiante("Oscar Marin", "oscar.marin@gmail.com", 20, perfilAcademico3);
 
             estudianteRepository.save(estudiante1);
             estudianteRepository.save(estudiante2);
@@ -73,11 +78,16 @@ public class InicializadorDatos {
 
             //TAREA 3 PROFESORES
 
-            //AÑADIR PROFESORES
+            //AÑADIR PROFESORES con su oficina
 
-            Profesor profesor1 = new Profesor("Juan Perez Rodriguez", "Desarrollo de Aplicaciones Web", 8);
-            Profesor profesor2 = new Profesor("Lucia Del Toro Igual", "Ingles", 4);
-            Profesor profesor3 = new Profesor("Rodrigo Galvez Martinez", "Matematicas Aplicadas", 19);
+            Oficina oficina1 = new Oficina("Oficina1", "Edificio1");
+            Oficina oficina2 = new Oficina("Oficina2", "Edificio2");
+            Oficina oficina3 = new Oficina("Oficina3", "Edificio3");
+
+
+            Profesor profesor1 = new Profesor("Juan Perez Rodriguez", "Desarrollo de Aplicaciones Web", 8, oficina1);
+            Profesor profesor2 = new Profesor("Lucia Del Toro Igual", "Ingles", 4, oficina2);
+            Profesor profesor3 = new Profesor("Rodrigo Galvez Martinez", "Matematicas Aplicadas", 19, oficina3);
 
             profesorRepository.save(profesor1);
             profesorRepository.save(profesor2);

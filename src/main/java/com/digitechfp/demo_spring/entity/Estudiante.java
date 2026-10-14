@@ -26,10 +26,15 @@ public class Estudiante {
     @Column(nullable = false)
     private int edad;
 
-    public Estudiante(String nombre, String correo, int edad) {
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "perfil_id", referencedColumnName = "id")
+    private PerfilAcademico perfilAcademico;
+
+    public Estudiante(String nombre, String correo, int edad, PerfilAcademico perfilAcademico) {
 
         this.nombre = nombre;
         this.correo = correo;
         this.edad = edad;
+        this.perfilAcademico = perfilAcademico;
     }
 }

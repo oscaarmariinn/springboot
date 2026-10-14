@@ -28,9 +28,14 @@ public class Profesor {
     @Column(name = "experiencia_anios")
     private int experienciaAnios;
 
-    public Profesor(String nombreCompleto, String especialidad, int experienciaAnios) {
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "oficina_id", referencedColumnName = "id")
+    private Oficina oficina;
+
+    public Profesor(String nombreCompleto, String especialidad, int experienciaAnios, Oficina oficina) {
         this.nombreCompleto = nombreCompleto;
         this.especialidad = especialidad;
         this.experienciaAnios = experienciaAnios;
+        this.oficina = oficina;
     }
 }
