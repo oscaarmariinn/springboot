@@ -1,9 +1,6 @@
 package com.digitechfp.demo_spring.config;
 
-import com.digitechfp.demo_spring.entity.Estudiante;
-import com.digitechfp.demo_spring.entity.Oficina;
-import com.digitechfp.demo_spring.entity.PerfilAcademico;
-import com.digitechfp.demo_spring.entity.Profesor;
+import com.digitechfp.demo_spring.entity.*;
 import com.digitechfp.demo_spring.repository.EstudianteRepository;
 import com.digitechfp.demo_spring.repository.ProfesorRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -22,9 +19,18 @@ public class InicializadorDatos {
             PerfilAcademico perfilAcademico1 = new PerfilAcademico("Apasionado del backend", "B2");
             PerfilAcademico perfilAcademico2 = new PerfilAcademico("Apasionado del Frontend", "B1");
             PerfilAcademico perfilAcademico3 = new PerfilAcademico("Apasionado de todo", "C4");
+
             Estudiante estudiante1 = new Estudiante("Ana Garcia", "ana.garcia@gmail.com", 19, perfilAcademico1);
             Estudiante estudiante2 = new Estudiante("Pedro Martinez", "pedro.martinez@gmail.com", 18, perfilAcademico2);
             Estudiante estudiante3 = new Estudiante("Oscar Marin", "oscar.marin@gmail.com", 20, perfilAcademico3);
+
+            ContactoAuxiliar contactoAuxiliar1 = new ContactoAuxiliar("Jose Nogales", "660660660", "josenogales@gmail.com", estudiante1);
+            ContactoAuxiliar contactoAuxiliar2 = new ContactoAuxiliar("Pepe pepe", "912912912", "pepepepe@gmail.com", estudiante1);
+            ContactoAuxiliar contactoAuxiliar3 = new ContactoAuxiliar("Maria Martinez", "677677677", "mariamartinez@gmail.com", estudiante3);
+
+            estudiante1.agregarContactoAuxiliar(contactoAuxiliar1);
+            estudiante1.agregarContactoAuxiliar(contactoAuxiliar2);
+            estudiante3.agregarContactoAuxiliar(contactoAuxiliar3);
 
             estudianteRepository.save(estudiante1);
             estudianteRepository.save(estudiante2);
@@ -85,9 +91,19 @@ public class InicializadorDatos {
             Oficina oficina3 = new Oficina("Oficina3", "Edificio3");
 
 
+
+
             Profesor profesor1 = new Profesor("Juan Perez Rodriguez", "Desarrollo de Aplicaciones Web", 8, oficina1);
             Profesor profesor2 = new Profesor("Lucia Del Toro Igual", "Ingles", 4, oficina2);
             Profesor profesor3 = new Profesor("Rodrigo Galvez Martinez", "Matematicas Aplicadas", 19, oficina3);
+
+            Asignatura asignatura1 = new Asignatura("Proyecto Intermodular", 3, profesor1);
+            Asignatura asignatura2 = new Asignatura("Ingles", 3, profesor1);
+            Asignatura asignatura3 = new Asignatura("PSP", 2 , profesor3);
+
+            profesor1.agregarAsignatura(asignatura1);
+            profesor1.agregarAsignatura(asignatura2);
+            profesor3.agregarAsignatura(asignatura3);
 
             profesorRepository.save(profesor1);
             profesorRepository.save(profesor2);

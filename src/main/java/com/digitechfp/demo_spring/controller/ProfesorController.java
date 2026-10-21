@@ -1,6 +1,9 @@
 package com.digitechfp.demo_spring.controller;
 
 
+import com.digitechfp.demo_spring.entity.Asignatura;
+import com.digitechfp.demo_spring.entity.Oficina;
+import com.digitechfp.demo_spring.entity.PerfilAcademico;
 import com.digitechfp.demo_spring.entity.Profesor;
 import com.digitechfp.demo_spring.service.EstudianteService;
 import com.digitechfp.demo_spring.service.ProfesorService;
@@ -9,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +64,20 @@ public class ProfesorController {
                     profesorExistente.setNombreCompleto(profesorDatos.getNombreCompleto());
                     profesorExistente.setEspecialidad(profesorDatos.getEspecialidad());
                     profesorExistente.setExperienciaAnios(profesorDatos.getExperienciaAnios());
+                    if(profesorDatos.getOficina() != null){
+                        if(profesorExistente.getOficina() != null){
+                            profesorExistente.getOficina().setCodigoOficina(
+                                    profesorDatos.getOficina().getCodigoOficina()
+                            );
+                            profesorExistente.getOficina().setEdificio(
+                                    profesorDatos.getOficina().getEdificio()
+                            );
+                        }else {
+                            profesorExistente.setOficina(null);
+                        }
+                    }
+                    profesorExistente.setAsignaturas(profesorDatos.getAsignaturas() );
+
 
                     Profesor profesorActualizado = profesorService.guardarProfesor(profesorExistente);
                     return ResponseEntity.ok(profesorActualizado);
@@ -83,6 +101,47 @@ public class ProfesorController {
                                 break;
                             case "aniosExperiencia":
                                 profesorExistente.setExperienciaAnios(((Number) valor).intValue());
+                                break;
+                            case "oficina":
+                                if (valor instanceof Map){
+                                    @SuppressWarnings("unchecked")
+                                    Map<String, Object> datosOficina =
+                                            (Map<String, Object>)valor;
+
+                                    Oficina oficina =
+                                            profesorExistente.getOficina();
+                                    if (oficina == null){
+                                        oficina = new Oficina();
+                                        profesorExistente.setOficina(oficina);
+                                    }
+                                    if (datosOficina.containsKey("codigoOficina")){
+                                        oficina.setCodigoOficina((String) datosOficina.get("codigoOficina"));
+                                    }
+                                    if (datosOficina.containsKey("edificio")){
+                                        oficina.setEdificio((String) datosOficina.get("edificio"));
+                                    }
+                                } else if (valor == null){
+                                    profesorExistente.setOficina(null);
+                                }
+                                break;
+                            case "asignaturas":
+                                if (valor instanceof List){
+                                    @SuppressWarnings("uncheked")
+                                            List<Map<String, Object>> listasAsignaturasMap = (List<Map<String, Object>>) valor;
+                                    List<Asignatura> asignaturas = new ArrayList<>();
+                                    for (Map<String, Object> mapAsignatura : listasAsignaturasMap){
+                                        Asignatura asignatura = new Asignatura();
+                                        if (mapAsignatura.containsKey("id") && mapAsignatura.get("id") != null){
+                                            asignatura.setId(((Number) mapAsignatura.get("id")).longValue());
+                                        }
+                                        asignatura.setNombre((String) mapAsignatura.get("nombre"));
+                                        if (mapAsignatura.get("creditos") instanceof Number){
+                                            asignatura.setCreditos(((Number) mapAsignatura.get("creditos")).intValue());
+                                        }
+                                        asignaturas.add(asignatura);
+                                    }
+                                    profesorExistente.setAsignaturas(asignaturas);
+                                }
                                 break;
                         }
                     });
